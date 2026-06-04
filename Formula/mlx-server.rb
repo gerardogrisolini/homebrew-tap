@@ -5,7 +5,7 @@ class MlxServer < Formula
   sha256 "0019dfc4b32d63c1392aa264aed2253c1e0c2fb09216f8e2cc269bbfb8bb49b5"
   license "MIT"
 
-  depends_on macos: ">= :tahoe"
+  depends_on macos: :tahoe
 
   def install
     bin.install "mlx-server"
