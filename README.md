@@ -1,11 +1,11 @@
-# homebrew-mlx-server
+# homebrew-tap
 
 Homebrew tap for [mlx-server](https://github.com/gerardogrisolini/mlx-server) — a local LLM server and coding agent powered by MLX on Apple Silicon.
 
 ## Install
 
 ```bash
-brew tap gerardogrisolini/mlx-server
+brew tap gerardogrisolini/tap
 brew install mlx-server
 ```
 
@@ -19,7 +19,7 @@ brew upgrade mlx-server
 
 ```bash
 brew uninstall mlx-server
-brew untap gerardogrisolini/mlx-server
+brew untap gerardogrisolini/tap
 ```
 
 ## Requirements
