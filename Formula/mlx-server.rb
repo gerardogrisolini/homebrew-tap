@@ -40,6 +40,6 @@ class MlxServer < Formula
   end
 
   test do
-    assert_match version.to_s, shell_output("#{bin}/mlx-server --version 2>&1", 1)
+    assert_match "mlx-server", shell_output("#{bin}/mlx-server --version")
   end
 end

@@ -33,7 +33,7 @@ TMPFILE=$(mktemp)
 trap 'rm -f "$TMPFILE"' EXIT
 
 echo "Downloading ${DOWNLOAD_URL}..."
-curl -sL "$DOWNLOAD_URL" -o "$TMPFILE"
+curl --fail --silent --show-error --location "$DOWNLOAD_URL" -o "$TMPFILE"
 
 SHA256=$(shasum -a 256 "$TMPFILE" | awk '{print $1}')
 echo "SHA256: ${SHA256}"

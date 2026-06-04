@@ -39,7 +39,7 @@ jobs:
           TAG="${{ steps.version.outputs.tag }}"
           DOWNLOAD_URL="https://github.com/gerardogrisolini/mlx-server/releases/download/${TAG}/mlx-server-${TAG}-macos-arm64.tar.gz"
           echo "Downloading ${DOWNLOAD_URL}..."
-          curl -sL "$DOWNLOAD_URL" -o release.tar.gz
+          curl --fail --silent --show-error --location "$DOWNLOAD_URL" -o release.tar.gz
           SHA256=$(sha256sum release.tar.gz | awk '{print $1}')
           echo "SHA256: ${SHA256}"
 
