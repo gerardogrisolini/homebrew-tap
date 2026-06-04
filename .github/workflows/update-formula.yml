@@ -1,0 +1,58 @@
+name: Update Formula
+
+on:
+  repository_dispatch:
+    types: [release]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version (e.g. 0.1.0)"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Determine version
+        id: version
+        run: |
+          if [ -n "${{ github.event.client_payload.version }}" ]; then
+            VERSION="${{ github.event.client_payload.version }}"
+          elif [ -n "${{ inputs.version }}" ]; then
+            VERSION="${{ inputs.version }}"
+          else
+            echo "Error: no version provided" >&2
+            exit 1
+          fi
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "tag=v${VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Download and compute SHA256
+        run: |
+          TAG="${{ steps.version.outputs.tag }}"
+          DOWNLOAD_URL="https://github.com/gerardogrisolini/mlx-server/releases/download/${TAG}/mlx-server-${TAG}-macos-arm64.tar.gz"
+          echo "Downloading ${DOWNLOAD_URL}..."
+          curl -sL "$DOWNLOAD_URL" -o release.tar.gz
+          SHA256=$(sha256sum release.tar.gz | awk '{print $1}')
+          echo "SHA256: ${SHA256}"
+
+          # Update formula
+          sed -i "s|url \".*\"|url \"${DOWNLOAD_URL}\"|" Formula/mlx-server.rb
+          sed -i "s|sha256 \".*\"|sha256 \"${SHA256}\"|" Formula/mlx-server.rb
+
+      - name: Commit and push
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Formula/mlx-server.rb
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          git commit -m "Update mlx-server to v${VERSION}"
+          git push
