@@ -31,21 +31,16 @@ jobs:
             echo "Error: no version provided" >&2
             exit 1
           fi
+          VERSION="${VERSION#v}"
+          if [ -z "$VERSION" ]; then
+            echo "Error: version cannot be empty" >&2
+            exit 1
+          fi
           echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
-          echo "tag=v${VERSION}" >> "$GITHUB_OUTPUT"
 
-      - name: Download and compute SHA256
+      - name: Update formula
         run: |
-          TAG="${{ steps.version.outputs.tag }}"
-          DOWNLOAD_URL="https://github.com/gerardogrisolini/mlx-server/releases/download/${TAG}/mlx-server-${TAG}-macos-arm64.tar.gz"
-          echo "Downloading ${DOWNLOAD_URL}..."
-          curl --fail --silent --show-error --location "$DOWNLOAD_URL" -o release.tar.gz
-          SHA256=$(sha256sum release.tar.gz | awk '{print $1}')
-          echo "SHA256: ${SHA256}"
-
-          # Update formula
-          sed -i "s|url \".*\"|url \"${DOWNLOAD_URL}\"|" Formula/mlx-server.rb
-          sed -i "s|sha256 \".*\"|sha256 \"${SHA256}\"|" Formula/mlx-server.rb
+          ./update-formula.sh "${{ steps.version.outputs.version }}"
 
       - name: Commit and push
         run: |

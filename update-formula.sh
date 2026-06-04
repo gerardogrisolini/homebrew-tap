@@ -12,7 +12,12 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
-VERSION="$1"
+VERSION="${1#v}"
+if [ -z "$VERSION" ]; then
+    echo "Error: version cannot be empty" >&2
+    exit 1
+fi
+
 TAG="v${VERSION}"
 REPO="gerardogrisolini/mlx-server"
 FORMULA="Formula/mlx-server.rb"
@@ -38,14 +43,28 @@ curl --fail --silent --show-error --location "$DOWNLOAD_URL" -o "$TMPFILE"
 SHA256=$(shasum -a 256 "$TMPFILE" | awk '{print $1}')
 echo "SHA256: ${SHA256}"
 
-# Update the formula
-sed -i '' "s|url \".*\"|url \"${DOWNLOAD_URL}\"|" "$FORMULA_PATH"
-sed -i '' "s|sha256 \".*\"|sha256 \"${SHA256}\"|" "$FORMULA_PATH"
+ruby - "$FORMULA_PATH" "$DOWNLOAD_URL" "$SHA256" <<'RUBY'
+path, download_url, sha256 = ARGV
+formula = File.read(path)
+
+unless formula.sub!(/^(\s*)url ".*"$/) { "#{$1}url \"#{download_url}\"" }
+  abort "Error: url stanza not found in #{path}"
+end
+
+unless formula.sub!(/^(\s*)sha256 ".*"$/) { "#{$1}sha256 \"#{sha256}\"" }
+  abort "Error: sha256 stanza not found in #{path}"
+end
+
+File.write(path, formula)
+RUBY
 
 echo "Formula updated: ${FORMULA_PATH}"
-echo ""
-echo "Next steps:"
-echo "  cd ${SCRIPT_DIR}"
-echo "  git add ${FORMULA}"
-echo "  git commit -m \"Update mlx-server to ${TAG}\""
-echo "  git push"
+
+if [ "${CI:-}" != "true" ]; then
+    echo ""
+    echo "Next steps:"
+    echo "  cd ${SCRIPT_DIR}"
+    echo "  git add ${FORMULA}"
+    echo "  git commit -m \"Update mlx-server to ${TAG}\""
+    echo "  git push"
+fi
