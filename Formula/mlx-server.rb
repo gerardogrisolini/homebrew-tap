@@ -12,6 +12,8 @@ class MlxServer < Formula
   def install
     bin.install "mlx-server"
     bin.install "mlx-coder"
+    bin.install "mlx.metallib" if File.exist?("mlx.metallib")
+    bin.install "mlx.metallib.manifest.json" if File.exist?("mlx.metallib.manifest.json")
 
     # Install feature executables
     features_dir = libexec/"features"
