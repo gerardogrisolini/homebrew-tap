@@ -43,12 +43,24 @@ curl --fail --silent --show-error --location "$DOWNLOAD_URL" -o "$TMPFILE"
 SHA256=$(shasum -a 256 "$TMPFILE" | awk '{print $1}')
 echo "SHA256: ${SHA256}"
 
-ruby - "$FORMULA_PATH" "$DOWNLOAD_URL" "$SHA256" <<'RUBY'
-path, download_url, sha256 = ARGV
+ruby - "$FORMULA_PATH" "$DOWNLOAD_URL" "$SHA256" "$VERSION" <<'RUBY'
+path, download_url, sha256, version = ARGV
 formula = File.read(path)
 
 unless formula.sub!(/^(\s*)url ".*"$/) { "#{$1}url \"#{download_url}\"" }
   abort "Error: url stanza not found in #{path}"
+end
+
+unless formula.sub!(/^(\s*)version ".*"$/) { "#{$1}version \"#{version}\"" }
+  unless formula.sub!(/^(\s*)sha256 ".*"$/) { "#{$1}version \"#{version}\"\n#{$&}" }
+    abort "Error: sha256 stanza not found in #{path}"
+  end
+end
+
+unless formula.match?(/^\s*version_scheme \d+$/)
+  unless formula.sub!(/^(\s*)version ".*"$/) { "#{$&}\n#{$1}version_scheme 1" }
+    abort "Error: version stanza not found in #{path}"
+  end
 end
 
 unless formula.sub!(/^(\s*)sha256 ".*"$/) { "#{$1}sha256 \"#{sha256}\"" }
