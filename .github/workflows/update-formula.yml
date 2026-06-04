@@ -6,8 +6,10 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Release version (e.g. 0.1.0)"
-        required: true
+        description: "Release version (e.g. 0.1.0). Leave blank to use the latest release."
+        required: false
+  schedule:
+    - cron: "17 * * * *"
 
 permissions:
   contents: write
@@ -23,13 +25,20 @@ jobs:
       - name: Determine version
         id: version
         run: |
-          if [ -n "${{ github.event.client_payload.version }}" ]; then
-            VERSION="${{ github.event.client_payload.version }}"
-          elif [ -n "${{ inputs.version }}" ]; then
-            VERSION="${{ inputs.version }}"
+          EVENT_VERSION="${{ github.event.client_payload.version || '' }}"
+          INPUT_VERSION="${{ inputs.version || '' }}"
+
+          if [ -n "$EVENT_VERSION" ]; then
+            VERSION="$EVENT_VERSION"
+          elif [ -n "$INPUT_VERSION" ]; then
+            VERSION="$INPUT_VERSION"
           else
-            echo "Error: no version provided" >&2
-            exit 1
+            TAG=$(
+              curl --fail --silent --show-error --location \
+                https://api.github.com/repos/gerardogrisolini/mlx-server/releases/latest \
+              | python3 -c 'import json, sys; print(json.load(sys.stdin)["tag_name"])'
+            )
+            VERSION="${TAG#v}"
           fi
           VERSION="${VERSION#v}"
           if [ -z "$VERSION" ]; then
