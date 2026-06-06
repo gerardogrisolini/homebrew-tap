@@ -4,7 +4,7 @@ class MlxServer < Formula
   url "https://github.com/gerardogrisolini/mlx-server/releases/download/v0.1.10/mlx-server-v0.1.10-macos-arm64.tar.gz"
   version "0.1.10"
   version_scheme 1
-  sha256 "d9348d5de7320d1b8fe0792415e15c6041e50e428e96800555cd8f2ce79ef3c6"
+  sha256 "91e73a2bb0776bb36a9ebb6015bf6f01bc6f499f170e80ea0617cc5035f03d38"
   license "MIT"
 
   depends_on macos: :tahoe
