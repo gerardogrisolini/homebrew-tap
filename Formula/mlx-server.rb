@@ -12,6 +12,7 @@ class MlxServer < Formula
   def install
     bin.install "mlx-server"
     bin.install "mlx-coder"
+    bin.install "mlx-voice-transcriber"
     bin.install "mlx.metallib" if File.exist?("mlx.metallib")
     bin.install "mlx.metallib.manifest.json" if File.exist?("mlx.metallib.manifest.json")
 
@@ -45,5 +46,6 @@ class MlxServer < Formula
 
   test do
     assert_match "mlx-server", shell_output("#{bin}/mlx-server --version")
+    assert_match "mlx-voice-transcriber", shell_output("#{bin}/mlx-voice-transcriber --help")
   end
 end
