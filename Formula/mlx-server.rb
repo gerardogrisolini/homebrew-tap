@@ -1,10 +1,10 @@
 class MlxServer < Formula
   desc "Local LLM server and coding agent powered by MLX on Apple Silicon"
   homepage "https://github.com/gerardogrisolini/mlx-server"
-  url "https://github.com/gerardogrisolini/mlx-server/releases/download/v0.2.7/mlx-server-v0.2.7-macos-arm64.tar.gz"
-  version "0.2.7"
+  url "https://github.com/gerardogrisolini/mlx-server/releases/download/v0.2.8/mlx-server-v0.2.8-macos-arm64.tar.gz"
+  version "0.2.8"
   version_scheme 1
-  sha256 "6f469ab5f488d4cc058fdce1baf2bef3aa46b0939b429e4b7cb1d7079b266ebf"
+  sha256 "35dd264b39e189a8cf4d52dfa09de68e54913506c386f2ac8e222fd16c639786"
   license "MIT"
 
   depends_on macos: :tahoe
