@@ -35,7 +35,7 @@ jobs:
           else
             TAG=$(
               curl --fail --silent --show-error --location \
-                https://api.github.com/repos/gerardogrisolini/mlx-server/releases/latest \
+                https://api.github.com/repos/gerardogrisolini/mlx-coder/releases/latest \
               | python3 -c 'import json, sys; print(json.load(sys.stdin)["tag_name"])'
             )
             VERSION="${TAG#v}"
@@ -56,7 +56,7 @@ jobs:
           VERSION="${{ steps.version.outputs.version }}"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add Formula/mlx-server.rb
+          git add Formula/mlx-coder.rb
           git diff --cached --quiet && echo "No changes to commit" && exit 0
-          git commit -m "Update mlx-server to v${VERSION}"
+          git commit -m "Update mlx-coder to v${VERSION}"
           git push

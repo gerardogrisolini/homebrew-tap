@@ -19,9 +19,10 @@ if [ -z "$VERSION" ]; then
 fi
 
 TAG="v${VERSION}"
-REPO="gerardogrisolini/mlx-server"
-FORMULA="Formula/mlx-server.rb"
-DOWNLOAD_URL="https://github.com/${REPO}/releases/download/${TAG}/mlx-server-${TAG}-macos-arm64.tar.gz"
+REPO="gerardogrisolini/mlx-coder"
+FORMULA="Formula/mlx-coder.rb"
+ARCHIVE="mlx-server-${TAG}-macos-arm64.tar.gz"
+DOWNLOAD_URL="https://github.com/${REPO}/releases/download/${TAG}/${ARCHIVE}"
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 FORMULA_PATH="${SCRIPT_DIR}/${FORMULA}"
@@ -77,6 +78,6 @@ if [ "${CI:-}" != "true" ]; then
     echo "Next steps:"
     echo "  cd ${SCRIPT_DIR}"
     echo "  git add ${FORMULA}"
-    echo "  git commit -m \"Update mlx-server to ${TAG}\""
+    echo "  git commit -m \"Update mlx-coder to ${TAG}\""
     echo "  git push"
 fi

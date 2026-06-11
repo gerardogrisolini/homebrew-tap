@@ -1,24 +1,24 @@
 # homebrew-tap
 
-Homebrew tap for [mlx-server](https://github.com/gerardogrisolini/mlx-server) — a local LLM server and coding agent powered by MLX on Apple Silicon.
+Homebrew tap for [mlx-coder](https://github.com/gerardogrisolini/mlx-coder) — a local coding agent and LLM server powered by MLX on Apple Silicon.
 
 ## Install
 
 ```bash
 brew tap gerardogrisolini/tap
-brew install mlx-server
+brew install mlx-coder
 ```
 
 ## Upgrade
 
 ```bash
-brew upgrade mlx-server
+brew upgrade mlx-coder
 ```
 
 ## Uninstall
 
 ```bash
-brew uninstall mlx-server
+brew uninstall mlx-coder
 brew untap gerardogrisolini/tap
 ```
 
@@ -30,17 +30,12 @@ brew untap gerardogrisolini/tap
 ## Quick Start
 
 ```bash
-# Setup configuration and models
-mlx-server --setup
-mlx-server --setup-models
-
-# Start the local inference server
-mlx-server
-
-# Or run the coding agent directly
-mlx-server --coder --cwd /path/to/project
-
-# Or use the standalone agent
+# Setup and run the coding agent
 mlx-coder --setup
 mlx-coder --cwd /path/to/project
+
+# The local inference server is also included
+mlx-server --setup
+mlx-server --setup-models
+mlx-server
 ```
