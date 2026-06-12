@@ -12,7 +12,6 @@ class MlxCoder < Formula
   def install
     bin.install "mlx-coder"
     bin.install "mlx-server"
-    bin.install "mlx-voice-transcriber"
     bin.install "mlx.metallib" if File.exist?("mlx.metallib")
     bin.install "mlx.metallib.manifest.json" if File.exist?("mlx.metallib.manifest.json")
 
@@ -45,6 +44,5 @@ class MlxCoder < Formula
   test do
     assert_match "mlx-coder", shell_output("#{bin}/mlx-coder --version")
     assert_match "mlx-server", shell_output("#{bin}/mlx-server --version")
-    assert_match "mlx-voice-transcriber", shell_output("#{bin}/mlx-voice-transcriber --help")
   end
 end
