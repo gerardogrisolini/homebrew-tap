@@ -1,10 +1,10 @@
 class MlxCoder < Formula
   desc "Local coding agent powered by MLX on Apple Silicon"
   homepage "https://github.com/gerardogrisolini/mlx-coder"
-  url "https://github.com/gerardogrisolini/mlx-coder/releases/download/v0.3.7/mlx-server-v0.3.7-macos-arm64.tar.gz"
-  version "0.3.7"
+  url "https://github.com/gerardogrisolini/mlx-coder/releases/download/v0.3.8/mlx-coder-v0.3.8-macos-arm64.tar.gz"
+  version "0.3.8"
   version_scheme 1
-  sha256 "100b985ac259c8c1a2863745f0fe496eba6a2f65fca3d74ecb4310de0f65c357"
+  sha256 "e1bc9c888523d3f1646083af7236426839b9c73c72c689b0909f5ec6a560eced"
   license "MIT"
 
   depends_on macos: :tahoe
