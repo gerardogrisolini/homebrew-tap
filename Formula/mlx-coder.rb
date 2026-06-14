@@ -1,5 +1,5 @@
 class MlxCoder < Formula
-  desc "Local coding agent and LLM server powered by MLX on Apple Silicon"
+  desc "Local coding agent powered by MLX on Apple Silicon"
   homepage "https://github.com/gerardogrisolini/mlx-coder"
   url "https://github.com/gerardogrisolini/mlx-coder/releases/download/v0.3.6/mlx-server-v0.3.6-macos-arm64.tar.gz"
   version "0.3.6"
@@ -11,7 +11,6 @@ class MlxCoder < Formula
 
   def install
     bin.install "mlx-coder"
-    bin.install "mlx-server"
     bin.install "mlx.metallib" if File.exist?("mlx.metallib")
     bin.install "mlx.metallib.manifest.json" if File.exist?("mlx.metallib.manifest.json")
 
@@ -34,15 +33,12 @@ class MlxCoder < Formula
         mlx-coder --setup
         mlx-coder --cwd /path/to/project
 
-      The local inference server is also included:
-        mlx-server --setup
-        mlx-server --setup-models
-        mlx-server
+      To use the local MLX runtime directly:
+        mlx-coder --mlx
     EOS
   end
 
   test do
     assert_match "mlx-coder", shell_output("#{bin}/mlx-coder --version")
-    assert_match "mlx-server", shell_output("#{bin}/mlx-server --version")
   end
 end

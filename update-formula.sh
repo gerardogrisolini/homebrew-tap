@@ -21,7 +21,7 @@ fi
 TAG="v${VERSION}"
 REPO="gerardogrisolini/mlx-coder"
 FORMULA="Formula/mlx-coder.rb"
-ARCHIVE="mlx-server-${TAG}-macos-arm64.tar.gz"
+ARCHIVE="mlx-coder-${TAG}-macos-arm64.tar.gz"
 DOWNLOAD_URL="https://github.com/${REPO}/releases/download/${TAG}/${ARCHIVE}"
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
